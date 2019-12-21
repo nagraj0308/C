@@ -1,0 +1,33 @@
+OCTAL:-if the contant is greater than one digit then using ZERO(0) is compulsory...  
+	eg- 0123, 1, 23.4 is not valid becoze of (.)
+
+
+HEXADECIMAL:- 0x is compulsory before all the numbers......
+		this case insencitive....
+
+		eg:- 0x34a,0xa
+
+
+
+UNSINED INTEGERS:-
+	0u 0U 65535U 65535u 0x345aU 034u
+
+LONG INTEGERS:-
+	01234L 0x1234al 0123l
+
+SHORT INTEGER:-
+	1323s 0x1234S
+
+
+
+
+Note:- s,S,l,L,u,U are not necessary compiler automatically recognised the type.....
+
+
+
+
+#define north 1
+#define south 2
+
+
+

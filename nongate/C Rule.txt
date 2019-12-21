@@ -1,0 +1,2 @@
+gcc program1.c -o program2
+program2 or program2.exe

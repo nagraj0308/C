@@ -1,0 +1,4 @@
+gcc -E program1.c //prepocessor outputfile=program1.i
+gcc -S program1.c //compiler	outputfile=program1.s
+gcc -C program1.c //assembler	outputfile=program1.o
+gcc -O program1.c //linker	outputfile=program1.exe

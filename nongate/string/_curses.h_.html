@@ -1,0 +1,908 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!-- saved from url=(0066)http://pubs.opengroup.org/onlinepubs/7908799/xcurses/curses.h.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<!-- Copyright 1997 The Open Group, All Rights Reserved -->
+
+<title>&lt;curses.h&gt;</title>
+</head><body bgcolor="white">
+<center>
+<font size="2">
+The Single UNIX ® Specification, Version 2<br>
+Copyright © 1997 The Open Group
+
+</font></center><hr size="2" noshade="">
+<xref type="10" name="curses.h"></xref>
+<h4><a name="tag_000_000_256">&nbsp;</a>NAME</h4><blockquote>
+curses.h - definitions for screen handling and optimisation functions
+</blockquote><h4><a name="tag_000_000_257">&nbsp;</a>SYNOPSIS</h4><blockquote>
+<pre><code>
+
+#include &lt;curses.h&gt;
+</code>
+</pre>
+</blockquote><h4><a name="tag_000_000_258">&nbsp;</a>DESCRIPTION</h4><blockquote>
+<h5><a name="tag_000_000_258_001">&nbsp;</a>Objects</h5>
+The
+<i>&lt;curses.h&gt;</i>
+header provides a declaration for
+<i>COLOR_PAIRS</i>,
+<i>COLORS</i>,
+<i>COLS</i>,
+<i>curscr</i>,
+<i>LINES</i>
+and
+<i>stdscr</i>.
+<h5><a name="tag_000_000_258_002">&nbsp;</a>Constants</h5>
+The following constants are defined:
+<dl compact="">
+
+<dt>EOF</dt><dd>Function return value for end-of-file
+
+</dd><dt>ERR</dt><dd>Function return value for failure
+
+</dd><dt>FALSE</dt><dd>Boolean <i>false</i> value
+
+</dd><dt>OK</dt><dd>Function return value for success
+
+</dd><dt>TRUE</dt><dd>Boolean <i>true</i> value
+
+</dd><dt>WEOF</dt><dd>Wide-character function return value for end-of-file, as defined in
+<i><a href="http://pubs.opengroup.org/onlinepubs/7908799/xsh/wchar.h.html">&lt;wchar.h&gt;</a></i>.
+
+</dd></dl>
+<p>
+The following constant is defined if the implementation supports
+the indicated revision of the X/Open Curses specification:
+</p><dl compact="">
+
+<dt>_XOPEN_CURSES</dt><dd>X/Open Curses, Issue 4, Version 2, July 1996,
+(ISBN: 1-85912-171-3, C610) (this document).
+
+</dd></dl>
+<h5><a name="tag_000_000_258_003">&nbsp;</a>Data Types</h5>
+The following data types are defined through <b>typedef</b>:
+<dl compact="">
+
+<dt><b>attr_t</b></dt><dd>An OR-ed set of attributes
+
+</dd><dt><b>bool</b></dt><dd>Boolean data type
+
+</dd><dt><b>chtype</b></dt><dd>A character, attributes
+&nbsp;and a colour-pair
+
+</dd><dt><b>SCREEN</b></dt><dd>An opaque terminal representation
+
+</dd><dt><b>wchar_t</b></dt><dd>As described in
+<i><a href="http://pubs.opengroup.org/onlinepubs/7908799/xsh/stddef.h.html">&lt;stddef.h&gt;</a></i>
+
+</dd><dt><b>wint_t</b></dt><dd>As described in
+<i><a href="http://pubs.opengroup.org/onlinepubs/7908799/xsh/wchar.h.html">&lt;wchar.h&gt;</a></i>
+
+</dd><dt><b>cchar_t</b></dt><dd>References a string of wide characters
+
+</dd><dt><b>WINDOW</b></dt><dd>An opaque window representation
+
+</dd></dl>
+<p>
+These data types are described in more detail in
+<xref href="datatypes"></xref><a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/implement.html#datatypes">Data Types</a>.
+</p><p>
+The inclusion of
+<i>&lt;curses.h&gt;</i>
+may make visible all symbols from the headers
+<i><a href="http://pubs.opengroup.org/onlinepubs/7908799/xsh/stdio.h.html">&lt;stdio.h&gt;</a></i>,
+<i><a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/term.h.html">&lt;term.h&gt;</a></i>,
+<i><a href="http://pubs.opengroup.org/onlinepubs/7908799/xsh/termios.h.html">&lt;termios.h&gt;</a></i>
+and
+<i><a href="http://pubs.opengroup.org/onlinepubs/7908799/xsh/wchar.h.html">&lt;wchar.h&gt;</a></i>.
+<br>
+</p><h5><a name="tag_000_000_258_004">&nbsp;</a>Attribute Bits</h5>
+The following symbolic constants are used to manipulate objects of type
+<b>attr_t</b>:
+<pre><code>
+WA_ALTCHARSET  Alternate character set
+WA_BLINK       Blinking
+WA_BOLD        Extra bright or bold
+WA_DIM         Half bright
+WA_HORIZONTAL  Horizontal highlight
+WA_INVIS       Invisible
+WA_LEFT        Left highlight
+WA_LOW         Low highlight
+WA_PROTECT     Protected
+WA_REVERSE     Reverse video
+WA_RIGHT       Right highlight
+WA_STANDOUT    Best highlighting mode of the terminal
+WA_TOP         Top highlight
+WA_UNDERLINE   Underlining
+WA_VERTICAL    Vertical highlight
+</code>
+</pre>
+These attribute flags shall be distinct.
+<p>
+The following symbolic constants are used to manipulate attribute bits in
+objects of type
+<b>chtype</b>:
+</p><pre><code>
+A_ALTCHARSET   Alternate character set
+A_BLINK        Blinking
+A_BOLD         Extra bright or bold
+A_DIM          Half bright
+A_INVIS        Invisible
+A_PROTECT      Protected
+A_REVERSE      Reverse video
+A_STANDOUT     Best highlighting mode of the terminal
+A_UNDERLINE    Underlining
+</code>
+</pre>
+These attribute flags need not be distinct
+&nbsp;except when _XOPEN_CURSES is defined and the application sets
+_XOPEN_SOURCE_EXTENDED to 1.
+<p>
+The following symbolic constants can be used as bit-masks to extract the
+components of a
+<b>chtype</b>:
+</p><pre><code>
+A_ATTRIBUTES   Bit-mask to extract attributes
+A_CHARTEXT     Bit-mask to extract a character
+A_COLOR        Bit-mask to extract colour-pair information
+</code>
+</pre>
+<br>
+<h5><a name="tag_000_000_258_005">&nbsp;</a>Line-drawing Constants</h5>
+The
+<i>&lt;curses.h&gt;</i>
+header defines the symbolic constants shown in the leftmost two columns of the
+following table for use in drawing lines.
+The symbolic constants that begin with ACS_ are
+<b>char</b>
+constants.
+The symbolic constants that begin with WACS_ are
+<b>cchar_t</b>
+constants for use with the wide-character interfaces that take a pointer to a
+<b>cchar_t</b>.
+<p>
+In the POSIX locale, the characters shown in the
+<b>POSIX Locale Default</b>
+column are used when the terminal database does not specify a value using the
+<b>acsc</b>
+capability.
+</p><p>
+</p><p><table align="center">
+<tbody><tr valign="top"><th align="center"><b>char Constant</b>
+</th><th align="center"><b>cchar_t Constant</b>
+</th><th align="center"><b>POSIX Locale Default</b>
+</th><th align="center"><b>Glyph Description</b>
+</th></tr><tr valign="top"><td align="center">ACS_ULCORNER
+</td><td align="center">WACS_ULCORNER
+</td><td align="center">+
+</td><td align="left">upper left-hand corner
+</td></tr><tr valign="top"><td align="center">ACS_LLCORNER
+</td><td align="center">WACS_LLCORNER
+</td><td align="center">+
+</td><td align="left">lower left-hand corner
+</td></tr><tr valign="top"><td align="center">ACS_URCORNER
+</td><td align="center">WACS_URCORNER
+</td><td align="center">+
+</td><td align="left">upper right-hand corner
+</td></tr><tr valign="top"><td align="center">ACS_LRCORNER
+</td><td align="center">WACS_LRCORNER
+</td><td align="center">+
+</td><td align="left">lower right-hand corner
+</td></tr><tr valign="top"><td align="center">ACS_RTEE
+</td><td align="center">WACS_RTEE
+</td><td align="center">+
+</td><td align="left">right tee
+</td></tr><tr valign="top"><td align="center">ACS_LTEE
+</td><td align="center">WACS_LTEE
+</td><td align="center">+
+</td><td align="left">left tee
+</td></tr><tr valign="top"><td align="center">ACS_BTEE
+</td><td align="center">WACS_BTEE
+</td><td align="center">+
+</td><td align="left">bottom tee
+</td></tr><tr valign="top"><td align="center">ACS_TTEE
+</td><td align="center">WACS_TTEE
+</td><td align="center">+
+</td><td align="left">top tee
+</td></tr><tr valign="top"><td align="center">ACS_HLINE
+</td><td align="center">WACS_HLINE
+</td><td align="center">-
+</td><td align="left">horizontal line
+</td></tr><tr valign="top"><td align="center">ACS_VLINE
+</td><td align="center">WACS_VLINE
+</td><td align="center">|
+</td><td align="left">vertical line
+</td></tr><tr valign="top"><td align="center">ACS_PLUS
+</td><td align="center">WACS_PLUS
+</td><td align="center">+
+</td><td align="left">plus
+</td></tr><tr valign="top"><td align="center">ACS_S1
+</td><td align="center">WACS_S1
+</td><td align="center">-
+</td><td align="left">scan line 1
+</td></tr><tr valign="top"><td align="center">ACS_S9
+</td><td align="center">WACS_S9
+</td><td align="center">_
+</td><td align="left">scan line 9
+</td></tr><tr valign="top"><td align="center">ACS_DIAMOND
+</td><td align="center">WACS_DIAMOND
+</td><td align="center">+
+</td><td align="left">diamond
+</td></tr><tr valign="top"><td align="center">ACS_CKBOARD
+</td><td align="center">WACS_CKBOARD
+</td><td align="center">:
+</td><td align="left">checker board (stipple)
+</td></tr><tr valign="top"><td align="center">ACS_DEGREE
+</td><td align="center">WACS_DEGREE
+</td><td align="center">'
+</td><td align="left">degree symbol
+</td></tr><tr valign="top"><td align="center">ACS_PLMINUS
+</td><td align="center">WACS_PLMINUS
+</td><td align="center">#
+</td><td align="left">plus/minus
+</td></tr><tr valign="top"><td align="center">ACS_BULLET
+</td><td align="center">WACS_BULLET
+</td><td align="center">o
+</td><td align="left">bullet
+</td></tr><tr valign="top"><td align="center">ACS_LARROW
+</td><td align="center">WACS_LARROW
+</td><td align="center">&lt;
+</td><td align="left">arrow pointing left
+</td></tr><tr valign="top"><td align="center">ACS_RARROW
+</td><td align="center">WACS_RARROW
+</td><td align="center">&gt;
+</td><td align="left">arrow pointing right
+</td></tr><tr valign="top"><td align="center">ACS_DARROW
+</td><td align="center">WACS_DARROW
+</td><td align="center">v
+</td><td align="left">arrow pointing down
+</td></tr><tr valign="top"><td align="center">ACS_UARROW
+</td><td align="center">WACS_UARROW
+</td><td align="center"><sub>^</sub>
+</td><td align="left">arrow pointing up
+</td></tr><tr valign="top"><td align="center">ACS_BOARD 
+</td><td align="center">WACS_BOARD 
+</td><td align="center">#
+</td><td align="left">board of squares
+</td></tr><tr valign="top"><td align="center">ACS_LANTERN
+</td><td align="center">WACS_LANTERN
+</td><td align="center">#
+</td><td align="left">lantern symbol
+</td></tr><tr valign="top"><td align="center">ACS_BLOCK 
+</td><td align="center">WACS_BLOCK
+</td><td align="center">#
+</td><td align="left">solid square block
+</td></tr></tbody></table>
+</p><h5><a name="tag_000_000_258_006">&nbsp;</a>Colour-related Macros</h5>
+<xref type="5" name="colourmacros"></xref>
+The following colour-related macros are defined:
+<p><table <tr="" valign="top"><tbody><tr><th align="center">COLOR_BLACK
+</th></tr><tr valign="top"><td align="center">COLOR_BLUE
+</td></tr><tr valign="top"><td align="center">COLOR_GREEN
+</td></tr><tr valign="top"><td align="center">COLOR_CYAN
+</td></tr><tr valign="top"><td align="center">COLOR_RED
+</td></tr><tr valign="top"><td align="center">COLOR_MAGENTA
+</td></tr><tr valign="top"><td align="center">COLOR_YELLOW
+</td></tr><tr valign="top"><td align="center">COLOR_WHITE
+</td></tr></tbody></table>
+</p><h5><a name="tag_000_000_258_007">&nbsp;</a>Coordinate-related Macros</h5>
+The following coordinate-related macros are defined:
+<p>
+</p><pre><code>
+void   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/getbegyx.html">getbegyx</a>(WINDOW *<i>win</i>, int <i>y</i>, int <i>x</i>);
+void   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/getmaxyx.html">getmaxyx</a>(WINDOW *<i>win</i>, int <i>y</i>, int <i>x</i>);
+void   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/getparyx.html">getparyx</a>(WINDOW *<i>win</i>, int <i>y</i>, int <i>x</i>);
+void   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/getyx.html">getyx</a>(WINDOW *<i>win</i>, int <i>y</i>, int <i>x</i>);
+</code>
+</pre>
+<h5><a name="tag_000_000_258_008">&nbsp;</a>Key Codes</h5>
+The following symbolic constants representing function key values are
+defined:
+<p>
+</p><p><table <tr="" valign="top"><tbody><tr><th align="center"><b>Key Code</b>
+</th><th align="center"><b>Description</b>
+</th></tr><tr valign="top"><td align="left">KEY_CODE_YES
+</td><td align="left">Used to indicate that a <b>wchar_t</b> variable
+</td></tr><tr valign="top"><td align="left">
+</td><td align="left">contains a key code
+</td></tr><tr valign="top"><td align="left">KEY_BREAK
+</td><td align="left">Break key
+</td></tr><tr valign="top"><td align="left">KEY_DOWN
+</td><td align="left">Down arrow key
+</td></tr><tr valign="top"><td align="left">KEY_UP
+</td><td align="left">Up arrow key
+</td></tr><tr valign="top"><td align="left">KEY_LEFT
+</td><td align="left">Left arrow key
+</td></tr><tr valign="top"><td align="left">KEY_RIGHT
+</td><td align="left">Right arrow key
+</td></tr><tr valign="top"><td align="left">KEY_HOME
+</td><td align="left">Home key
+</td></tr><tr valign="top"><td align="left">KEY_BACKSPACE
+</td><td align="left">Backspace
+</td></tr><tr valign="top"><td align="left">KEY_F0
+</td><td align="left">Function keys; space for 64 keys is reserved
+</td></tr><tr valign="top"><td align="left">KEY_F(<i>n</i>)
+</td><td align="left">For 0 &lt;=<i>n</i>&lt;=63
+</td></tr><tr valign="top"><td align="left">KEY_DL
+</td><td align="left">Delete line
+</td></tr><tr valign="top"><td align="left">KEY_IL
+</td><td align="left">Insert line
+</td></tr><tr valign="top"><td align="left">KEY_DC
+</td><td align="left">Delete character
+</td></tr><tr valign="top"><td align="left">KEY_IC
+</td><td align="left">Insert char or enter insert mode
+</td></tr><tr valign="top"><td align="left">KEY_EIC
+</td><td align="left">Exit insert char mode
+</td></tr><tr valign="top"><td align="left">KEY_CLEAR
+</td><td align="left">Clear screen
+</td></tr><tr valign="top"><td align="left">KEY_EOS
+</td><td align="left">Clear to end of screen
+</td></tr><tr valign="top"><td align="left">KEY_EOL
+</td><td align="left">Clear to end of line
+</td></tr><tr valign="top"><td align="left">KEY_SF
+</td><td align="left">Scroll 1 line forward
+</td></tr><tr valign="top"><td align="left">KEY_SR
+</td><td align="left">Scroll 1 line backward (reverse)
+</td></tr><tr valign="top"><td align="left">KEY_NPAGE
+</td><td align="left">Next page
+</td></tr><tr valign="top"><td align="left">KEY_PPAGE
+</td><td align="left">Previous page
+</td></tr><tr valign="top"><td align="left">KEY_STAB
+</td><td align="left">Set tab
+</td></tr><tr valign="top"><td align="left">KEY_CTAB
+</td><td align="left">Clear tab
+</td></tr><tr valign="top"><td align="left">KEY_CATAB
+</td><td align="left">Clear all tabs
+</td></tr><tr valign="top"><td align="left">KEY_ENTER
+</td><td align="left">Enter or send
+</td></tr><tr valign="top"><td align="left">KEY_SRESET
+</td><td align="left">Soft (partial) reset
+</td></tr><tr valign="top"><td align="left">KEY_RESET
+</td><td align="left">Reset or hard reset
+</td></tr><tr valign="top"><td align="left">KEY_PRINT
+</td><td align="left">Print or copy
+</td></tr><tr valign="top"><td align="left">KEY_LL
+</td><td align="left">Home down or bottom
+</td></tr><tr valign="top"><td align="left">KEY_A1
+</td><td align="left">Upper left of keypad
+</td></tr><tr valign="top"><td align="left">KEY_A3
+</td><td align="left">Upper right of keypad
+</td></tr><tr valign="top"><td align="left">KEY_B2
+</td><td align="left">Center of keypad
+</td></tr><tr valign="top"><td align="left">KEY_C1
+</td><td align="left">Lower left of keypad
+</td></tr><tr valign="top"><td align="left">KEY_C3
+</td><td align="left">Lower right of keypad
+</td></tr></tbody></table>
+The virtual keypad is a 3-by-3 keypad arranged as follows:
+</p><p>
+</p><p><table bordercolor="#000000" border="1" align="center"><tbody><tr valign="top"><td align="center">A1
+</td><td align="center">UP
+</td><td align="center">A3
+</td></tr><tr valign="top"><td align="center">LEFT
+</td><td align="center">B2
+</td><td align="center">RIGHT
+</td></tr><tr valign="top"><td align="center">C1
+</td><td align="center">DOWN
+</td><td align="center">C3
+</td></tr></tbody></table>
+</p><p>
+Each legend, such as A1, corresponds to a symbolic constant for a key code
+from the preceding table, such as KEY_A1.
+</p><hr size="2" noshade="">
+The following symbolic constants representing function key values are also
+defined:
+<p><table align="center"><tbody><tr valign="top"><th align="center"><b>Key Code</b>
+</th><th align="center"><b>Description</b>
+</th></tr><tr valign="top"><td align="left">KEY_BTAB
+</td><td align="left">Back tab key
+</td></tr><tr valign="top"><td align="left">KEY_BEG
+</td><td align="left">Beginning key
+</td></tr><tr valign="top"><td align="left">KEY_CANCEL
+</td><td align="left">Cancel key
+</td></tr><tr valign="top"><td align="left">KEY_CLOSE
+</td><td align="left">Close key
+</td></tr><tr valign="top"><td align="left">KEY_COMMAND
+</td><td align="left">Cmd (command) key
+</td></tr><tr valign="top"><td align="left">KEY_COPY
+</td><td align="left">Copy key
+</td></tr><tr valign="top"><td align="left">KEY_CREATE
+</td><td align="left">Create key
+</td></tr><tr valign="top"><td align="left">KEY_END
+</td><td align="left">End key
+</td></tr><tr valign="top"><td align="left">KEY_EXIT
+</td><td align="left">Exit key
+</td></tr><tr valign="top"><td align="left">KEY_FIND
+</td><td align="left">Find key
+</td></tr><tr valign="top"><td align="left">KEY_HELP
+</td><td align="left">Help key
+</td></tr><tr valign="top"><td align="left">KEY_MARK
+</td><td align="left">Mark key
+</td></tr><tr valign="top"><td align="left">KEY_MESSAGE
+</td><td align="left">Message key
+</td></tr><tr valign="top"><td align="left">KEY_MOVE
+</td><td align="left">Move key
+</td></tr><tr valign="top"><td align="left">KEY_NEXT
+</td><td align="left">Next object key
+</td></tr><tr valign="top"><td align="left">KEY_OPEN
+</td><td align="left">Open key
+</td></tr><tr valign="top"><td align="left">KEY_OPTIONS
+</td><td align="left">Options key
+</td></tr><tr valign="top"><td align="left">KEY_PREVIOUS
+</td><td align="left">Previous object key
+</td></tr><tr valign="top"><td align="left">KEY_REDO
+</td><td align="left">Redo key
+</td></tr><tr valign="top"><td align="left">KEY_REFERENCE
+</td><td align="left">Reference key
+</td></tr><tr valign="top"><td align="left">KEY_REFRESH
+</td><td align="left">Refresh key
+</td></tr><tr valign="top"><td align="left">KEY_REPLACE
+</td><td align="left">Replace key
+</td></tr><tr valign="top"><td align="left">KEY_RESTART
+</td><td align="left">Restart key
+</td></tr><tr valign="top"><td align="left">KEY_RESUME
+</td><td align="left">Resume key
+</td></tr><tr valign="top"><td align="left">KEY_SAVE
+</td><td align="left">Save key
+</td></tr><tr valign="top"><td align="left">KEY_SBEG
+</td><td align="left">Shifted beginning key
+</td></tr><tr valign="top"><td align="left">KEY_SCANCEL
+</td><td align="left">Shifted cancel key
+</td></tr><tr valign="top"><td align="left">KEY_SCOMMAND
+</td><td align="left">Shifted command key
+</td></tr><tr valign="top"><td align="left">KEY_SCOPY
+</td><td align="left">Shifted copy key
+</td></tr><tr valign="top"><td align="left">KEY_SCREATE
+</td><td align="left">Shifted create key
+</td></tr><tr valign="top"><td align="left">KEY_SDC
+</td><td align="left">Shifted delete char key
+</td></tr><tr valign="top"><td align="left">KEY_SDL
+</td><td align="left">Shifted delete line key
+</td></tr><tr valign="top"><td align="left">KEY_SELECT
+</td><td align="left">Select key
+</td></tr><tr valign="top"><td align="left">KEY_SEND
+</td><td align="left">Shifted end key
+</td></tr><tr valign="top"><td align="left">KEY_SEOL
+</td><td align="left">Shifted clear line key
+</td></tr><tr valign="top"><td align="left">KEY_SEXIT
+</td><td align="left">Shifted exit key
+</td></tr><tr valign="top"><td align="left">KEY_SFIND
+</td><td align="left">Shifted find key
+</td></tr><tr valign="top"><td align="left">KEY_SHELP
+</td><td align="left">Shifted help key
+</td></tr><tr valign="top"><td align="left">KEY_SHOME
+</td><td align="left">Shifted home key
+</td></tr><tr valign="top"><td align="left">KEY_SIC
+</td><td align="left">Shifted input key
+</td></tr><tr valign="top"><td align="left">KEY_SLEFT
+</td><td align="left">Shifted left arrow key
+</td></tr><tr valign="top"><td align="left">KEY_SMESSAGE
+</td><td align="left">Shifted message key
+</td></tr><tr valign="top"><td align="left">KEY_SMOVE
+</td><td align="left">Shifted move key
+</td></tr><tr valign="top"><td align="left">KEY_SNEXT
+</td><td align="left">Shifted next key
+</td></tr><tr valign="top"><td align="left">KEY_SOPTIONS
+</td><td align="left">Shifted options key
+</td></tr><tr valign="top"><td align="left">KEY_SPREVIOUS
+</td><td align="left">Shifted prev key
+</td></tr><tr valign="top"><td align="left">KEY_SPRINT
+</td><td align="left">Shifted print key
+</td></tr><tr valign="top"><td align="left">KEY_SREDO
+</td><td align="left">Shifted redo key
+</td></tr><tr valign="top"><td align="left">KEY_SREPLACE
+</td><td align="left">Shifted replace key
+</td></tr><tr valign="top"><td align="left">KEY_SRIGHT
+</td><td align="left">Shifted right arrow
+</td></tr><tr valign="top"><td align="left">KEY_SRSUME
+</td><td align="left">Shifted resume key
+</td></tr><tr valign="top"><td align="left">KEY_SSAVE
+</td><td align="left">Shifted save key
+</td></tr><tr valign="top"><td align="left">KEY_SSUSPEND
+</td><td align="left">Shifted suspend key
+</td></tr><tr valign="top"><td align="left">KEY_SUNDO
+</td><td align="left">Shifted undo key
+</td></tr><tr valign="top"><td align="left">KEY_SUSPEND
+</td><td align="left">Suspend key
+</td></tr><tr valign="top"><td align="left">KEY_UNDO
+</td><td align="left">Undo key
+</td></tr></tbody></table>
+</p><hr size="2" noshade="">
+<h5><a name="tag_000_000_258_009">&nbsp;</a>Function Prototypes</h5>
+<xref type="5" name="allprototypes"></xref>
+The following are declared as functions, and may also be defined as macros:
+<p>
+</p><pre><code>
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/addch.html">addch</a>(const chtype);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/addchnstr.html">addchnstr</a>(const chtype *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/addchstr.html">addchstr</a>(const chtype *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/addnstr.html">addnstr</a>(const char *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/addnwstr.html">addnwstr</a>(const wchar_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/addstr.html">addstr</a>(const char *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/add_wch.html">add_wch</a>(const cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/add_wchnstr.html">add_wchnstr</a>(const cchar_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/add_wchstr.html">add_wchstr</a>(const cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/addwstr.html">addwstr</a>(const wchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/attroff.html">attroff</a>(int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/attron.html">attron</a>(int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/attrset.html">attrset</a>(int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/attr_get.html">attr_get</a>(attr_t *, short *, void *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/attr_off.html">attr_off</a>(attr_t, void *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/attr_on.html">attr_on</a>(attr_t, void *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/attr_set.html">attr_set</a>(attr_t, short, void *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/baudrate.html">baudrate</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/beep.html">beep</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/bkgd.html">bkgd</a>(chtype);
+void   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/bkgdset.html">bkgdset</a>(chtype);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/bkgrnd.html">bkgrnd</a>(const cchar_t *);
+void   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/bkgrndset.html">bkgrndset</a>(const cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/border.html">border</a>(chtype, chtype, chtype, chtype, chtype, chtype, chtype,
+              chtype);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/border_set.html">border_set</a>(const cchar_t *, const cchar_t *, const cchar_t *,
+                  const cchar_t *, const cchar_t *, const cchar_t *,
+                  const cchar_t *, const cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/box.html">box</a>(WINDOW *, chtype, chtype);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/box_set.html">box_set</a>(WINDOW *, const cchar_t *, const cchar_t *);
+bool   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/can_change_color.html">can_change_color</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/cbreak.html">cbreak</a>(void); 
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/chgat.html">chgat</a>(int, attr_t, short, const void *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/clearok.html">clearok</a>(WINDOW *, bool);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/clear.html">clear</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/clrtobot.html">clrtobot</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/clrtoeol.html">clrtoeol</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/color_content.html">color_content</a>(short, short *, short *, short *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/COLOR_PAIR.html">COLOR_PAIR</a>(int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/color_set.html">color_set</a>(short,void *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/copywin.html">copywin</a>(const WINDOW *, WINDOW *, int, int, int, int, int, int,
+               int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/curs_set.html">curs_set</a>(int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/def_prog_mode.html">def_prog_mode</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/def_shell_mode.html">def_shell_mode</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/delay_output.html">delay_output</a>(int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/delch.html">delch</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/deleteln.html">deleteln</a>(void);
+void   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/delscreen.html">delscreen</a>(SCREEN *); 
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/delwin.html">delwin</a>(WINDOW *);
+WINDOW *<a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/derwin.html">derwin</a>(WINDOW *, int, int, int, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/doupdate.html">doupdate</a>(void);
+WINDOW *<a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/dupwin.html">dupwin</a>(WINDOW *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/echo.html">echo</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/echochar.html">echochar</a>(const chtype);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/echo_wchar.html">echo_wchar</a>(const cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/endwin.html">endwin</a>(void);
+char   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/erasechar.html">erasechar</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/erase.html">erase</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/erasewchar.html">erasewchar</a>(wchar_t *);
+void   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/filter.html">filter</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/flash.html">flash</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/flushinp.html">flushinp</a>(void);
+chtype <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/getbkgd.html">getbkgd</a>(WINDOW *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/getbkgrnd.html">getbkgrnd</a>(cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/getcchar.html">getcchar</a>(const cchar_t *, wchar_t *, attr_t *, short *, void *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/getch.html">getch</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/getnstr.html">getnstr</a>(char *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/getn_wstr.html">getn_wstr</a>(wint_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/getstr.html">getstr</a>(char *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/get_wch.html">get_wch</a>(wint_t *);
+WINDOW *<a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/getwin.html">getwin</a>(FILE *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/get_wstr.html">get_wstr</a>(wint_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/halfdelay.html">halfdelay</a>(int);
+bool   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/has_colors.html">has_colors</a>(void);
+bool   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/has_ic.html">has_ic</a>(void);
+bool   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/has_il.html">has_il</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/hline.html">hline</a>(chtype, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/hline_set.html">hline_set</a>(const cchar_t *, int);
+void   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/idcok.html">idcok</a>(WINDOW *, bool);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/idlok.html">idlok</a>(WINDOW *, bool);
+void   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/immedok.html">immedok</a>(WINDOW *, bool);
+chtype <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/inch.html">inch</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/inchnstr.html">inchnstr</a>(chtype *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/inchstr.html">inchstr</a>(chtype *);
+WINDOW *<a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/initscr.html">initscr</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/init_color.html">init_color</a>(short, short, short, short);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/init_pair.html">init_pair</a>(short, short, short);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/innstr.html">innstr</a>(char *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/innwstr.html">innwstr</a>(wchar_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/insch.html">insch</a>(chtype);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/insdelln.html">insdelln</a>(int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/insertln.html">insertln</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/insnstr.html">insnstr</a>(const char *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/ins_nwstr.html">ins_nwstr</a>(const wchar_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/insstr.html">insstr</a>(const char *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/instr.html">instr</a>(char *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/ins_wch.html">ins_wch</a>(const cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/ins_wstr.html">ins_wstr</a>(const wchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/intrflush.html">intrflush</a>(WINDOW *, bool);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/in_wch.html">in_wch</a>(cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/in_wchnstr.html">in_wchnstr</a>(cchar_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/in_wchstr.html">in_wchstr</a>(cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/inwstr.html">inwstr</a>(wchar_t *);
+bool   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/isendwin.html">isendwin</a>(void);
+bool   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/is_linetouched.html">is_linetouched</a>(WINDOW *, int);
+bool   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/is_wintouched.html">is_wintouched</a>(WINDOW *);
+char   *<a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/keyname.html">keyname</a>(int);
+char   *<a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/key_name.html">key_name</a>(wchar_t);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/keypad.html">keypad</a>(WINDOW *, bool);
+char   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/killchar.html">killchar</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/killwchar.html">killwchar</a>(wchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/leaveok.html">leaveok</a>(WINDOW *, bool);
+char   *<a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/longname.html">longname</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/meta.html">meta</a>(WINDOW *, bool);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/move.html">move</a>(int, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvaddch.html">mvaddch</a>(int, int, const chtype);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvaddchnstr.html">mvaddchnstr</a>(int, int, const chtype *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvaddchstr.html">mvaddchstr</a>(int, int, const chtype *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvaddnstr.html">mvaddnstr</a>(int, int, const char *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvaddnwstr.html">mvaddnwstr</a>(int, int, const wchar_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvaddstr.html">mvaddstr</a>(int, int, const char *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvadd_wch.html">mvadd_wch</a>(int, int, const cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvadd_wchnstr.html">mvadd_wchnstr</a>(int, int, const cchar_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvadd_wchstr.html">mvadd_wchstr</a>(int, int, const cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvaddwstr.html">mvaddwstr</a>(int, int, const wchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvchgat.html">mvchgat</a>(int, int, int, attr_t, short, const void *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvcur.html">mvcur</a>(int, int, int, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvdelch.html">mvdelch</a>(int, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvderwin.html">mvderwin</a>(WINDOW *, int, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvgetch.html">mvgetch</a>(int, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvgetnstr.html">mvgetnstr</a>(int, int, char *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvgetn_wstr.html">mvgetn_wstr</a>(int, int, wint_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvgetstr.html">mvgetstr</a>(int, int, char *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvget_wch.html">mvget_wch</a>(int, int, wint_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvget_wstr.html">mvget_wstr</a>(int, int, wint_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvhline.html">mvhline</a>(int, int, chtype, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvhline_set.html">mvhline_set</a>(int, int, const cchar_t *, int);
+chtype <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvinch.html">mvinch</a>(int, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvinchnstr.html">mvinchnstr</a>(int, int, chtype *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvinchstr.html">mvinchstr</a>(int, int, chtype *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvinnstr.html">mvinnstr</a>(int, int, char *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvinnwstr.html">mvinnwstr</a>(int, int, wchar_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvinsch.html">mvinsch</a>(int, int, chtype);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvinsnstr.html">mvinsnstr</a>(int, int, const char *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvins_nwstr.html">mvins_nwstr</a>(int, int, const wchar_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvinsstr.html">mvinsstr</a>(int, int, const char *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvinstr.html">mvinstr</a>(int, int, char *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvins_wch.html">mvins_wch</a>(int, int, const cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvins_wstr.html">mvins_wstr</a>(int, int, const wchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvin_wch.html">mvin_wch</a>(int, int, cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvin_wchnstr.html">mvin_wchnstr</a>(int, int, cchar_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvin_wchstr.html">mvin_wchstr</a>(int, int, cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvinwstr.html">mvinwstr</a>(int, int, wchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvprintw.html">mvprintw</a>(int, int, char *,  ...);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvscanw.html">mvscanw</a>(int, int, char *, ...);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvvline.html">mvvline</a>(int, int, chtype, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvvline_set.html">mvvline_set</a>(int, int, const cchar_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwaddch.html">mvwaddch</a>(WINDOW *, int, int, const chtype);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwaddchnstr.html">mvwaddchnstr</a>(WINDOW *, int, int, const chtype *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwaddchstr.html">mvwaddchstr</a>(WINDOW *, int, int, const chtype *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwaddnstr.html">mvwaddnstr</a>(WINDOW *, int, int, const char *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwaddnwstr.html">mvwaddnwstr</a>(WINDOW *, int, int, const wchar_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwaddstr.html">mvwaddstr</a>(WINDOW *, int, int, const char *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwadd_wch.html">mvwadd_wch</a>(WINDOW *, int, int, const cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwadd_wchnstr.html">mvwadd_wchnstr</a>(WINDOW *, int, int, const cchar_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwadd_wchstr.html">mvwadd_wchstr</a>(WINDOW *, int, int, const cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwaddwstr.html">mvwaddwstr</a>(WINDOW *, int, int, const wchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwchgat.html">mvwchgat</a>(WINDOW *, int, int, int, attr_t, short, const void *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwdelch.html">mvwdelch</a>(WINDOW *, int, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwgetch.html">mvwgetch</a>(WINDOW *, int, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwgetnstr.html">mvwgetnstr</a>(WINDOW *, int, int, char *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwgetn_wstr.html">mvwgetn_wstr</a>(WINDOW *, int, int, wint_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwgetstr.html">mvwgetstr</a>(WINDOW *, int, int, char *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwget_wch.html">mvwget_wch</a>(WINDOW *, int, int, wint_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwget_wstr.html">mvwget_wstr</a>(WINDOW *, int, int, wint_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwhline.html">mvwhline</a>(WINDOW *, int, int, chtype, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwhline_set.html">mvwhline_set</a>(WINDOW *, int, int, const cchar_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwin.html">mvwin</a>(WINDOW *, int, int);
+chtype <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwinch.html">mvwinch</a>(WINDOW *, int, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwinchnstr.html">mvwinchnstr</a>(WINDOW *, int, int, chtype *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwinchstr.html">mvwinchstr</a>(WINDOW *, int, int, chtype *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwinnstr.html">mvwinnstr</a>(WINDOW *, int, int, char *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwinnwstr.html">mvwinnwstr</a>(WINDOW *, int, int, wchar_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwinsch.html">mvwinsch</a>(WINDOW *, int, int, chtype);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwinsnstr.html">mvwinsnstr</a>(WINDOW *, int, int, const char *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwins_nwstr.html">mvwins_nwstr</a>(WINDOW *, int, int, const wchar_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwinsstr.html">mvwinsstr</a>(WINDOW *, int, int, const char *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwinstr.html">mvwinstr</a>(WINDOW *, int, int, char *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwins_wch.html">mvwins_wch</a>(WINDOW *, int, int, const cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwins_wstr.html">mvwins_wstr</a>(WINDOW *, int, int, const wchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwin_wch.html">mvwin_wch</a>(WINDOW *, int, int, cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwin_wchnstr.html">mvwin_wchnstr</a>(WINDOW *, int, int, cchar_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwin_wchstr.html">mvwin_wchstr</a>(WINDOW *, int, int, cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwinwstr.html">mvwinwstr</a>(WINDOW *, int, int, wchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwprintw.html">mvwprintw</a>(WINDOW *, int, int, char *, ...);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwscanw.html">mvwscanw</a>(WINDOW *, int, int, char *, ...);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwvline.html">mvwvline</a>(WINDOW *, int, int, chtype, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/mvwvline_set.html">mvwvline_set</a>(WINDOW *, int, int, const cchar_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/napms.html">napms</a>(int);
+WINDOW *<a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/newpad.html">newpad</a>(int, int);
+SCREEN *<a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/newterm.html">newterm</a>(char *, FILE *, FILE *);
+WINDOW *<a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/newwin.html">newwin</a>(int, int, int, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/nl.html">nl</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/nocbreak.html">nocbreak</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/nodelay.html">nodelay</a>(WINDOW *, bool);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/noecho.html">noecho</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/nonl.html">nonl</a>(void);
+void   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/noqiflush.html">noqiflush</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/noraw.html">noraw</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/notimeout.html">notimeout</a>(WINDOW *, bool);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/overlay.html">overlay</a>(const WINDOW *, WINDOW *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/overwrite.html">overwrite</a>(const WINDOW *, WINDOW *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/pair_content.html">pair_content</a>(short, short *, short *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/PAIR_NUMBER.html">PAIR_NUMBER</a>(int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/pechochar.html">pechochar</a>(WINDOW *, chtype);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/pecho_wchar.html">pecho_wchar</a>(WINDOW *, const cchar_t*);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/pnoutrefresh.html">pnoutrefresh</a>(WINDOW *, int, int, int, int, int, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/prefresh.html">prefresh</a>(WINDOW *, int, int, int, int, int, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/printw.html">printw</a>(char *, ...);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/putp.html">putp</a>(const char *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/putwin.html">putwin</a>(WINDOW *, FILE *);
+void   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/qiflush.html">qiflush</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/raw.html">raw</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/redrawwin.html">redrawwin</a>(WINDOW *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/refresh.html">refresh</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/reset_prog_mode.html">reset_prog_mode</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/reset_shell_mode.html">reset_shell_mode</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/resetty.html">resetty</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/ripoffline.html">ripoffline</a>(int, int (*)(WINDOW *, int));
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/savetty.html">savetty</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/scanw.html">scanw</a>(char *, ...);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/scr_dump.html">scr_dump</a>(const char *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/scr_init.html">scr_init</a>(const char *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/scrl.html">scrl</a>(int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/scroll.html">scroll</a>(WINDOW *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/scrollok.html">scrollok</a>(WINDOW *, bool);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/scr_restore.html">scr_restore</a>(const char *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/scr_set.html">scr_set</a>(const char *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/setcchar.html">setcchar</a>(cchar_t*, const wchar_t*, const attr_t, short,
+                const void*);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/setscrreg.html">setscrreg</a>(int, int);
+SCREEN *<a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/set_term.html">set_term</a>(SCREEN *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/setupterm.html">setupterm</a>(char *, int, int *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/slk_attr_off.html">slk_attr_off</a>(const attr_t, void *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/slk_attroff.html">slk_attroff</a>(const chtype);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/slk_attr_on.html">slk_attr_on</a>(const attr_t, void *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/slk_attron.html">slk_attron</a>(const chtype);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/slk_attr_set.html">slk_attr_set</a>(const attr_t, short, void *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/slk_attrset.html">slk_attrset</a>(const chtype);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/slk_clear.html">slk_clear</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/slk_color.html">slk_color</a>(short);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/slk_init.html">slk_init</a>(int);
+char   *<a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/slk_label.html">slk_label</a>(int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/slk_noutrefresh.html">slk_noutrefresh</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/slk_refresh.html">slk_refresh</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/slk_restore.html">slk_restore</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/slk_set.html">slk_set</a>(int, const char *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/slk_touch.html">slk_touch</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/slk_wset.html">slk_wset</a>(int, const wchar_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/standend.html">standend</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/standout.html">standout</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/start_color.html">start_color</a>(void);
+WINDOW *<a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/subpad.html">subpad</a>(WINDOW *, int, int, int, int);
+WINDOW *<a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/subwin.html">subwin</a>(WINDOW *, int, int, int, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/syncok.html">syncok</a>(WINDOW *, bool);
+chtype <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/termattrs.html">termattrs</a>(void);
+attr_t <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/term_attrs.html">term_attrs</a>(void);
+char   *<a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/termname.html">termname</a>(void);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/tigetflag.html">tigetflag</a>(char *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/tigetnum.html">tigetnum</a>(char *);
+char   *<a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/tigetstr.html">tigetstr</a>(char *);
+void   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/timeout.html">timeout</a>(int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/touchline.html">touchline</a>(WINDOW *, int, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/touchwin.html">touchwin</a>(WINDOW *);
+char   *<a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/tparm.html">tparm</a>(char *, long, long, long, long, long, long, long, long,
+              long);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/typeahead.html">typeahead</a>(int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/ungetch.html">ungetch</a>(int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/unget_wch.html">unget_wch</a>(const wchar_t);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/untouchwin.html">untouchwin</a>(WINDOW *);
+void   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/use_env.html">use_env</a>(bool);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/vid_attr.html">vid_attr</a>(attr_t, short, void *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/vidattr.html">vidattr</a>(chtype);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/vid_puts.html">vid_puts</a>(attr_t, short, void *, int (*)(int));
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/vidputs.html">vidputs</a>(chtype, int (*)(int));
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/vline.html">vline</a>(chtype, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/vline_set.html">vline_set</a>(const cchar_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/vwprintw.html">vwprintw</a>(WINDOW *, char *, va_list *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/vw_printw.html">vw_printw</a>(WINDOW *, char *, va_list *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/vwscanw.html">vwscanw</a>(WINDOW *, char *, va_list *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/vw_scanw.html">vw_scanw</a>(WINDOW *, char *, va_list *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/waddch.html">waddch</a>(WINDOW *, const chtype);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/waddchnstr.html">waddchnstr</a>(WINDOW *, const chtype *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/waddchstr.html">waddchstr</a>(WINDOW *, const chtype *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/waddnstr.html">waddnstr</a>(WINDOW *, const char *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/waddnwstr.html">waddnwstr</a>(WINDOW *, const wchar_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/waddstr.html">waddstr</a>(WINDOW *, const char *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wadd_wch.html">wadd_wch</a>(WINDOW *, const cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wadd_wchnstr.html">wadd_wchnstr</a>(WINDOW *, const cchar_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wadd_wchstr.html">wadd_wchstr</a>(WINDOW *, const cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/waddwstr.html">waddwstr</a>(WINDOW *, const wchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wattroff.html">wattroff</a>(WINDOW *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wattron.html">wattron</a>(WINDOW *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wattrset.html">wattrset</a>(WINDOW *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wattr_get.html">wattr_get</a>(WINDOW *, attr_t *, short *, void *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wattr_off.html">wattr_off</a>(WINDOW *, attr_t, void *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wattr_on.html">wattr_on</a>(WINDOW *, attr_t, void *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wattr_set.html">wattr_set</a>(WINDOW *, attr_t, short, void *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wbkgd.html">wbkgd</a>(WINDOW *, chtype);
+void   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wbkgdset.html">wbkgdset</a>(WINDOW *, chtype);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wbkgrnd.html">wbkgrnd</a>(WINDOW *, const cchar_t *);
+void   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wbkgrndset.html">wbkgrndset</a>(WINDOW *, const cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wborder.html">wborder</a>(WINDOW *, chtype, chtype, chtype, chtype, chtype, chtype,
+               chtype, chtype);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wborder_set.html">wborder_set</a>(WINDOW *, const cchar_t *, const cchar_t *,
+                  const cchar_t *, const cchar_t *, const cchar_t *,
+                  const cchar_t *, const cchar_t *, const cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wchgat.html">wchgat</a>(WINDOW *, int, attr_t, short, const void *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wclear.html">wclear</a>(WINDOW *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wclrtobot.html">wclrtobot</a>(WINDOW *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wclrtoeol.html">wclrtoeol</a>(WINDOW *);
+void   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wcursyncup.html">wcursyncup</a>(WINDOW *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wcolor_set.html">wcolor_set</a>(WINDOW *, short, void *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wdelch.html">wdelch</a>(WINDOW *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wdeleteln.html">wdeleteln</a>(WINDOW *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wechochar.html">wechochar</a>(WINDOW *, const chtype);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wecho_wchar.html">wecho_wchar</a>(WINDOW *, const cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/werase.html">werase</a>(WINDOW *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wgetbkgrnd.html">wgetbkgrnd</a>(WINDOW *, cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wgetch.html">wgetch</a>(WINDOW *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wgetnstr.html">wgetnstr</a>(WINDOW *, char *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wgetn_wstr.html">wgetn_wstr</a>(WINDOW *, wint_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wgetstr.html">wgetstr</a>(WINDOW *, char *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wget_wch.html">wget_wch</a>(WINDOW *, wint_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wget_wstr.html">wget_wstr</a>(WINDOW *, wint_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/whline.html">whline</a>(WINDOW *, chtype, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/whline_set.html">whline_set</a>(WINDOW *, const cchar_t *, int);
+chtype <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/winch.html">winch</a>(WINDOW *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/winchnstr.html">winchnstr</a>(WINDOW *, chtype *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/winchstr.html">winchstr</a>(WINDOW *, chtype *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/winnstr.html">winnstr</a>(WINDOW *, char *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/winnwstr.html">winnwstr</a>(WINDOW *, wchar_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/winsch.html">winsch</a>(WINDOW *, chtype);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/winsdelln.html">winsdelln</a>(WINDOW *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/winsertln.html">winsertln</a>(WINDOW *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/winsnstr.html">winsnstr</a>(WINDOW *, const char *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wins_nwstr.html">wins_nwstr</a>(WINDOW *, const wchar_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/winsstr.html">winsstr</a>(WINDOW *, const char *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/winstr.html">winstr</a>(WINDOW *, char *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wins_wch.html">wins_wch</a>(WINDOW *, const cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wins_wstr.html">wins_wstr</a>(WINDOW *, const wchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/win_wch.html">win_wch</a>(WINDOW *, cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/win_wchnstr.html">win_wchnstr</a>(WINDOW *, cchar_t *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/win_wchstr.html">win_wchstr</a>(WINDOW *, cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/winwstr.html">winwstr</a>(WINDOW *, wchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wmove.html">wmove</a>(WINDOW *, int, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wnoutrefresh.html">wnoutrefresh</a>(WINDOW *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wprintw.html">wprintw</a>(WINDOW *, char *, ...);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wredrawln.html">wredrawln</a>(WINDOW *, int, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wrefresh.html">wrefresh</a>(WINDOW *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wscanw.html">wscanw</a>(WINDOW *, char *, ...);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wscrl.html">wscrl</a>(WINDOW *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wsetscrreg.html">wsetscrreg</a>(WINDOW *, int, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wstandend.html">wstandend</a>(WINDOW *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wstandout.html">wstandout</a>(WINDOW *);
+void   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wsyncup.html">wsyncup</a>(WINDOW *);
+void   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wsyncdown.html">wsyncdown</a>(WINDOW *);
+void   <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wtimeout.html">wtimeout</a>(WINDOW *, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wtouchln.html">wtouchln</a>(WINDOW *, int, int, int);
+wchar_t *<a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wunctrl.html">wunctrl</a>(cchar_t *);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wvline.html">wvline</a>(WINDOW *, chtype, int);
+int    <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/wvline_set.html">wvline_set</a>(WINDOW *, const cchar_t *, int);
+</code>
+</pre>
+</blockquote><h4><a name="tag_000_000_259">&nbsp;</a>SEE ALSO</h4><blockquote>
+<i><a href="http://pubs.opengroup.org/onlinepubs/7908799/xsh/stdio.h.html">&lt;stdio.h&gt;</a></i>
+(in the <b>XSH</b> specification),
+<i><a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/term.h.html">&lt;term.h&gt;</a></i>,
+<i><a href="http://pubs.opengroup.org/onlinepubs/7908799/xsh/termios.h.html">&lt;termios.h&gt;</a></i>
+(in the <b>XSH</b> specification),
+<i><a href="http://pubs.opengroup.org/onlinepubs/7908799/xcurses/unctrl.h.html">&lt;unctrl.h&gt;</a></i>,
+<i><a href="http://pubs.opengroup.org/onlinepubs/7908799/xsh/wchar.h.html">&lt;wchar.h&gt;</a></i>
+(in the <b>XSH</b> specification).
+</blockquote><hr size="2" noshade="">
+<center><font size="2">
+UNIX ® is a registered Trademark of The Open Group.<br>
+Copyright © 1997 The Open Group
+<br> [ <a href="http://pubs.opengroup.org/onlinepubs/7908799/index.html">Main Index</a> | <a href="http://pubs.opengroup.org/onlinepubs/7908799/xshix.html">XSH</a> | <a href="http://pubs.opengroup.org/onlinepubs/7908799/xcuix.html">XCU</a> | <a href="http://pubs.opengroup.org/onlinepubs/7908799/xbdix.html">XBD</a> | <a href="http://pubs.opengroup.org/onlinepubs/7908799/cursesix.html">XCURSES</a> | <a href="http://pubs.opengroup.org/onlinepubs/7908799/xnsix.html">XNS</a> ]
+
+</font></center><hr size="2" noshade="">
+
+</body></html>

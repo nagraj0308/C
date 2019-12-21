@@ -1,0 +1,21 @@
+DATATYPES:-	 int	char	float	double
+
+QUALIFIERS:- 	signed	unsigned    short   	long   
+
+USER-DEFINED:-	typedef	   enum
+
+DERIVED:- struct  union	
+
+STORAGE CLASS:- Auto  Extern   Register   Static
+
+LOOP:- for  while  do
+
+DECISION:- if  else  switch  case  default 
+
+JUMP:- goto  continue  break
+
+FUNCTION:- void return
+
+OTHERS:- const  volatile    sizeof  
+
+    
