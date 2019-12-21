@@ -1,0 +1,26 @@
+crlt+alt                                                         openterminal
+
+sudo apt-get install filename                                    install
+
+ps -a                                                            to list running processes
+
+./pathname                                                       tolet the compiler search the file only in speciedfied path.
+
+g++ filename -o name                                     	  to give a different name to the .out file  
+
+g++ -o newfilename filename					to get a.out file as newfilename                                        
+
+compile C program                                   gcc name.c -o newname
+run  C program                  ./newname  
+
+export PATH=$PATH:/home/nagendra0308/Desktop/JAVA
+to set class path
+
+
+unzip filename.zip
+
+open python intepreter on ubuntu terminal                
+type python then press enter     
+
+username for mysql:root
+password for mysql:@nagendra                                                 
