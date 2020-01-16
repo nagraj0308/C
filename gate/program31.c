@@ -9,8 +9,10 @@ int main ( ){
 	//++p->c;
 	printf("%s ",++p->c);//c points e
 	printf("%s ",p++->c);//p=2
+        printf("%s ",p++->c);//p=3
 	printf("%c ",*++p->c);
 	printf("%d ",p[0].i);
 	printf("%s ",p->c);
+	printf("%s ",(st+1)->c);
 	
 }
