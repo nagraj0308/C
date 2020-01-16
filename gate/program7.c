@@ -17,8 +17,6 @@ void main(){
 	i=(int)f;
 	printf("\n%d",i);
 
-
-
 }
 
 
