@@ -1,0 +1,1 @@
+G(n,v) and write a algo to print all spanning tree
